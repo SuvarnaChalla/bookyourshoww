@@ -1,0 +1,190 @@
+// Customer table
+
+CREATE TABLE `book_your_show`.`customer` (
+  `cust_id` INT NOT NULL,
+  `cust_name` VARCHAR(45) NULL,
+  `cust_phone_no` INT NULL,
+  `cust_email` VARCHAR(45) NULL,
+  PRIMARY KEY (`cust_id`),
+  UNIQUE INDEX `cust_id_UNIQUE` (`cust_id` ASC) VISIBLE,
+  UNIQUE INDEX `cust_phone_no_UNIQUE` (`cust_phone_no` ASC) VISIBLE,
+  UNIQUE INDEX `cust_email_UNIQUE` (`cust_email` ASC) VISIBLE);
+
+// ticketbooking table
+CREATE TABLE `book_your_show`.`ticketbooking` (
+  `no_of_ticketsavil` INT NOT NULL,
+  `movie_name` VARCHAR(45) NULL,
+  `screen_no` INT NULL,
+  `show_DataTimel` DATETIME NULL,
+  `venue` VARCHAR(45) NULL,
+  PRIMARY KEY (`no_of_ticketsavil`),
+  UNIQUE INDEX `show_DataTimel_UNIQUE` (`show_DataTimel` ASC) VISIBLE);
+
+//payment table
+CREATE TABLE `book_your_show`.`payment` (
+  `pay_id` INT NOT NULL,
+  `amount` FLOAT NULL,
+  `transaction_id` INT NULL,
+  `user_id` INT NOT NULL,
+  UNIQUE INDEX `pay_id_UNIQUE` (`pay_id` ASC) VISIBLE,
+  UNIQUE INDEX `transaction_id_UNIQUE` (`transaction_id` ASC) VISIBLE,
+  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `book_your_show`.`customer` (`cust_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+//movie table
+CREATE TABLE `book_your_show`.`movie` (
+  `screen_no` INT NOT NULL,
+  `movie_name` VARCHAR(45) NULL,
+  `venue` VARCHAR(45) NULL);
+
+//admin table
+
+CREATE TABLE `book_your_show`.`admin` (
+  `Admin_id` INT NOT NULL,
+  `Admin_name` VARCHAR(45) NULL,
+  `Admin_email` VARCHAR(45) NULL,
+  `Admin_phone_no` INT NULL,
+  `password` VARCHAR(45) NULL,
+  UNIQUE INDEX `Admin_id_UNIQUE` (`Admin_id` ASC) VISIBLE,
+  UNIQUE INDEX `Admin_email_UNIQUE` (`Admin_email` ASC) VISIBLE,
+  UNIQUE INDEX `Admincol_UNIQUE` (`password` ASC) VISIBLE,
+  UNIQUE INDEX `Admin_phone_no_UNIQUE` (`Admin_phone_no` ASC) VISIBLE);
+
+//visitor 
+CREATE TABLE `book_your_show`.`visitor` (
+  `visit_id` INT NOT NULL,
+  `visit_name` VARCHAR(45) NULL,
+  UNIQUE INDEX `visit_id_UNIQUE` (`visit_id` ASC),
+  CONSTRAINT `visit_id`
+    FOREIGN KEY (`visit_id`)
+    REFERENCES `book_your_show`.`customer` (`cust_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+
+Tables:
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| book_your_show     |
+| bookyourshow       |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.18 sec)
+
+mysql> use book_Your_Show;
+Database changed
+mysql> show tables;
++--------------------------+
+| Tables_in_book_your_show |
++--------------------------+
+| admin                    |
+| customer                 |
+| movie                    |
+| payment                  |
+| ticketbooking            |
+| visitor                  |
++--------------------------+
+6 rows in set (0.07 sec)
+
+mysql> desc admin;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Admin_id       | int         | NO   | PRI | NULL    |       |
+| Admin_name     | varchar(45) | YES  |     | NULL    |       |
+| Admin_email    | varchar(45) | YES  | UNI | NULL    |       |
+| Admin_phone_no | int         | YES  | UNI | NULL    |       |
+| password       | varchar(45) | YES  | UNI | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.17 sec)
+
+mysql> desc customer;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| cust_id       | int         | NO   | PRI | NULL    |       |
+| cust_name     | varchar(45) | YES  |     | NULL    |       |
+| cust_phone_no | int         | YES  | UNI | NULL    |       |
+| cust_email    | varchar(45) | YES  | UNI | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc movie;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| screen_no  | int         | NO   |     | NULL    |       |
+| movie_name | varchar(45) | YES  |     | NULL    |       |
+| venue      | varchar(45) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> desc payment;
++----------------+-------+------+-----+---------+-------+
+| Field          | Type  | Null | Key | Default | Extra |
++----------------+-------+------+-----+---------+-------+
+| pay_id         | int   | NO   | PRI | NULL    |       |
+| amount         | float | YES  |     | NULL    |       |
+| transaction_id | int   | YES  | UNI | NULL    |       |
+| user_id        | int   | NO   | UNI | NULL    |       |
++----------------+-------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc ticketbooking;
++-------------------+-------------+------+-----+---------+-------+
+| Field             | Type        | Null | Key | Default | Extra |
++-------------------+-------------+------+-----+---------+-------+
+| no_of_ticketsavil | int         | NO   | PRI | NULL    |       |
+| movie_name        | varchar(45) | YES  |     | NULL    |       |
+| screen_no         | int         | YES  |     | NULL    |       |
+| show_DataTimel    | datetime    | YES  | UNI | NULL    |       |
+| venue             | varchar(45) | YES  |     | NULL    |       |
++-------------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc visitor;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| visit_id   | int         | NO   | PRI | NULL    |       |
+| visit_name | varchar(45) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
